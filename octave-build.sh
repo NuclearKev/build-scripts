@@ -1,7 +1,7 @@
 #!/bin/sh
-# Copyright (C) 2014  Kevin Bloom <kdb4@openmailbox.org>
+# Copyright (C) 2016  Kevin Bloom <kdb4@openmailbox.org>
 #
-# Based on scripts written by Matias A. Fonzo <selk@dragora.org> 
+# Based on scripts written by Matias A. Fonzo <selk@dragora.org>
 # and Lucas Sköldqvist <frusen@gungre.ch>
 #
 # This program is free software: you can redistribute it and/or modify
@@ -25,8 +25,8 @@ TMP=${TMP:-/tmp/sources}
 OUT=${OUT:-/tmp/packages}
 
 # Basic information about the package:
-P=R
-V=3.2.4
+P=octave
+V=4.0.2
 B=1
 
 # Define target architecture:
@@ -54,7 +54,7 @@ mkdir -p $PKG $OUT
 
 rm -rf ${TMP}/${P}-${V}
 echo "Uncompressing the tarball..."
-tar -xf ${CWD}/${P}-${V}.tar.gz -C $TMP
+tar -xf ${CWD}/${P}-${V}.tar.xz -C $TMP
 
 cd ${TMP}/${P}-${V}
 
@@ -88,6 +88,7 @@ CFLAGS="$DCFLAGS" \
  --infodir=/usr/info \
  --libdir=/usr/lib${SUFARCH} \
  --localstatedir=/var \
+ --disable-java \
  --build=${ARCH}-dragora-linux-gnu
 
 make -j$JOBS
@@ -119,7 +120,7 @@ fi
 # Copy the documentation:
 mkdir -p ${PKG}/usr/doc/${P}-${V}
 cp -a \
- COPYING \
+ COPYING README AUTHORS BUGS \
  ${PKG}/usr/doc/${P}-${V}
 
 # Copy the description files:
