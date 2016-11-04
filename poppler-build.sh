@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2014  Mateus Rodrigues <mprodrigues@dragora.org>
+# Copyright (C) 2016 Kevin Bloom <kdb@openmailbox.org>
 #
 # Based on scripts written by Matias A. Fonzo <selk@dragora.org>
 # and Lucas Sköldqvist <frusen@gungre.ch>
@@ -25,8 +25,8 @@ TMP=${TMP:-/tmp/sources}
 OUT=${OUT:-/tmp/packages}
 
 # Basic information about the package:
-P=libass
-V=0.13.1
+P=poppler
+V=0.26.5
 B=1
 
 # Define target architecture:
@@ -89,7 +89,7 @@ CFLAGS="$DCFLAGS" \
  --infodir=/usr/info \
  --libdir=/usr/lib${SUFARCH} \
  --localstatedir=/var \
- --disable-require-system-font-provider \
+ --enable-xpdf-headers \
  --build=${ARCH}-dragora-linux-gnu
 
 make -j$JOBS
@@ -121,7 +121,7 @@ fi
 # Copy the documentation:
 mkdir -p ${PKG}/usr/doc/${P}-${V}
 cp -a \
- COPYING \
+ README INSTALL COPYING NEWS  \
  ${PKG}/usr/doc/${P}-${V}
 
 # Copy the description files:

@@ -1,5 +1,5 @@
 #!/bin/sh
-# Copyright (C) 2014  Mateus Rodrigues <mprodrigues@dragora.org>
+# Copyright (C) 2016 Kevin Bloom <kdb4@openmailbox.org>
 #
 # Based on scripts written by Matias A. Fonzo <selk@dragora.org>
 # and Lucas Sköldqvist <frusen@gungre.ch>
@@ -25,8 +25,8 @@ TMP=${TMP:-/tmp/sources}
 OUT=${OUT:-/tmp/packages}
 
 # Basic information about the package:
-P=libass
-V=0.13.1
+P=poppler-data
+V=0.4.7
 B=1
 
 # Define target architecture:
@@ -54,7 +54,7 @@ mkdir -p $PKG $OUT
 
 rm -rf ${TMP}/${P}-${V}
 echo "Uncompressing the tarball..."
-tar -xf ${CWD}/${P}-${V}.tar.xz -C $TMP
+tar -xf ${CWD}/${P}-${V}.tar.gz -C $TMP
 
 cd ${TMP}/${P}-${V}
 
@@ -79,21 +79,14 @@ find . \
 
 #./autogen.sh
 
-CFLAGS="$DCFLAGS" \
-./configure \
- --prefix=/usr \
- --bindir=/bin \
- --sysconfdir=/etc \
- --datarootdir=/usr/share \
- --mandir=/usr/man \
- --infodir=/usr/info \
- --libdir=/usr/lib${SUFARCH} \
- --localstatedir=/var \
- --disable-require-system-font-provider \
- --build=${ARCH}-dragora-linux-gnu
+# CFLAGS="$DCFLAGS" \
+# ./configure \
+#  --prefix=/usr \
+#  --libdir=/usr/lib${SUFARCH} \
+#  --localstatedir=/var
 
-make -j$JOBS
-make install DESTDIR=$PKG
+# make -j$JOBS
+make install prefix=/usr DESTDIR=$PKG
 
 # Strip binaries & libraries:
 ( cd $PKG
@@ -121,7 +114,7 @@ fi
 # Copy the documentation:
 mkdir -p ${PKG}/usr/doc/${P}-${V}
 cp -a \
- COPYING \
+	 COPYING README \
  ${PKG}/usr/doc/${P}-${V}
 
 # Copy the description files:

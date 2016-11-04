@@ -26,7 +26,8 @@ OUT=${OUT:-/tmp/packages}
 
 # Basic information about the package:
 P=ImageMagick
-V=7.0.2-6
+V=7.0.2
+SV=7														# subversion
 B=1
 
 # Define target architecture:
@@ -55,6 +56,8 @@ mkdir -p $PKG $OUT
 rm -rf ${TMP}/${P}-${V}
 echo "Uncompressing the tarball..."
 tar -xf ${CWD}/${P}.tar.gz -C $TMP
+
+mv ${TMP}/${P}-${V}-${SV} ${TMP}/${P}-${V} # rename without subversion
 
 cd ${TMP}/${P}-${V}
 
